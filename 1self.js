@@ -121,9 +121,9 @@
                     lock = true;
                     req.send(JSON.stringify(queue.events.slice(0, queuelength)));
                 } else {
-                    if (failureCallback) {
-                        failureCallback();
-                    }
+                    // if (failureCallback) {
+                    //     failureCallback();
+                    // }
                 }
             }
         }
@@ -176,11 +176,21 @@
         config = _config;
         this.OBJECT_TAGS = [];
         this.ACTION_TAGS = [];
+        this.BACKGROUND_COLOR = "";
         this.onsendsuccess = null;
         this.onsenderror = null;
         if (!window.localStorage['1self']) {
             saveJSON('1self', {'events': []});
         }
+
+        var storedConfig = loadJSON('config');
+        if(storedConfig.streamid) {
+            config.streamid = storedConfig.streamid;
+        }
+        if(storedConfig.writeToken) {
+            config.writeToken = storedConfig.writeToken;
+        }
+
 
         window.addEventListener('load', getLocation, false);
         poller(this);
@@ -230,11 +240,17 @@
 
         config.streamid = streamid;
         config.writeToken = writeToken;
+        saveJSON('config', config);
         constructEvent(event);
         queueEvent(event);
 
         sendEventQueue(this.onsendsuccess, this.onsenderror);
         callback(true);
+        return this;
+    };
+
+    Lib1self.prototype.backgroundColor = function (backgroundColor) {
+        this.BACKGROUND_COLOR = backgroundColor;
         return this;
     };
 
@@ -258,6 +274,7 @@
 
         config.streamid = streamid;
         config.writeToken = writeToken;
+        saveJSON('config', config);
         sendEventQueue(this.onsendsuccess, this.onsenderror);
         callback(true);
         return this;
@@ -276,7 +293,7 @@
         config.streamid = streamid;
         config.readToken = readToken;
         return this;
-    }
+    };
 
     Lib1self.prototype.objectTags = function (tags) {
         this.OBJECT_TAGS = tags;
@@ -327,12 +344,17 @@
                 str += tag + ',';
             });
             return str.slice(0, -1);
-        }
+        };
 
         var object_tags_str = stringifyTags(this.OBJECT_TAGS);
         var action_tags_str = stringifyTags(this.ACTION_TAGS);
 
         var url = API_ENDPOINT + "/v1/streams/" + config.streamid + "/events/" + object_tags_str + "/" + action_tags_str + "/" + this.FUNCTION_TYPE + "/daily/" + this.CHART_TYPE;
+
+        if ((this.BACKGROUND_COLOR !== undefined) || (this.BACKGROUND_COLOR !== "")) {
+            url = "?bgColor=" + this.BACKGROUND_COLOR;
+        };
+
         return url;
     };
 
