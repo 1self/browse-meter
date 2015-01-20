@@ -4,16 +4,17 @@
     <script type="text/javascript" src="1self.js"></script>
     <script type="text/javascript" src="common.js"></script>
     <script type="text/javascript" src="insights.js"></script>
-    <style type="text/css">
-      iframe{
-          width: 320;
-          height: 568;
-          margin-top: 50px;
-      }
-    </style>
-  </head>
-  <body>
-    <select id="select_visualization"></select>
-    <iframe id="visualization"></iframe>
-  </body>
-</html>
+    <link rel="stylesheet" type="text/css" href="insights.css">
+      <style type="text/css">
+      </style>
+    </head>
+    <body>
+      <div class="select-wrapper">
+        <h1>1self Browse Meter</h1>
+        <select id="select_visualization">
+          <option value=""> -- Select a url -- </option>
+        </select>
+      </div>
+      <iframe width="300" height="1300" id="visualization"></iframe>
+    </body>
+  </html>
