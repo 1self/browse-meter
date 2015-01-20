@@ -6,15 +6,15 @@ var PREDEFINED_HOSTS = [
 var oneself = new Lib1self({
     "appName": 'Hello, 1self',
     "appVersion": '1.0.0',
-    "appId": "app-id-fado8423dfjoafj09jfasjf02wjf203r",
-    "appSecret": "app-secret-b4f75f422d34f9bc42cc6572ecd04aea392cc7488c31f6b7818487ec8f82e8e8"
+    "appId": "app-id-75441150bce89bef25c26a4e2acf429e",
+    "appSecret": "app-secret-f81d333ac301ec2b0dd5d757ffb2db6dc6607966a52a8a5d06b58f84b3a72446"
 });
 
 var getVizUrl = function(host) {
     var data = JSON.parse(window.localStorage.data),
     objectTags = [host], 
     actionTags = ["browse"],
-    property = "visited-" + host;
+    property = "times-visited";
 
     var vizUrl = oneself
         .visualize(data.streamid, data.readToken)
@@ -42,7 +42,7 @@ var constructEventAndSend = function(url){
     actionTags = ["browse"],
     properties = {};
 
-    properties["visited-" + parser.hostname] = 1;
+    properties["times-visited"] = 1;
 
     var event = {
         objectTags: objectTags,
@@ -52,7 +52,7 @@ var constructEventAndSend = function(url){
     
     var metaData = JSON.parse(window.localStorage.data);
     oneself.sendEvent(event, metaData.streamid, metaData.writeToken, function() {
-        alert("event sent");
+        //alert("event sent");
     });
 };
 
