@@ -38,9 +38,7 @@ var getVizUrl = function(host) {
 var constructEventAndSend = function(url){
     var host = parseURL(url).host;
 
-    if(!isHostInTrackingList(host)){
-        return;
-    }
+    if(!isHostInTrackingList(host)) return;
 
     var objectTags = [host],
     actionTags = ["browse"],

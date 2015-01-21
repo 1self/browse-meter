@@ -9,12 +9,12 @@ function executeOnLoadTasks(){
 
 function renderVizUrl(){
     var visualizationSelect = document.getElementById('select_visualization'),
-    host = visualizationSelect.value,
+    host = visualizationSelect.value;
 
-    url = getVizUrl(host);
+    if("" === host) return;
 
     var vizIframe = document.getElementById("visualization");
-    vizIframe.src = url;
+    vizIframe.src = getVizUrl(host);
 };
 
 window.addEventListener("load", executeOnLoadTasks);
