@@ -6,7 +6,7 @@
     "version": "1.0",
 
     "browser_action": {
-        "default_icon": "icon.png",
+        "default_icon": "assets/img/icon.png",
         "default_title": "1self browse-meter",
         "default_popup": "insights.html"
     },
@@ -16,7 +16,7 @@
     ],
 
     "background": {
-        "scripts": ["1self.js", "common.js", "eventPage.js"],
+        "scripts": ["assets/js/1self.js", "assets/js/common.js", "assets/js/eventPage.js"],
         "persistent": true
     }
 }
