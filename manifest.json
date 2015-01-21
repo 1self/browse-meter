@@ -11,6 +11,11 @@
         "default_popup": "insights.html"
     },
 
+    "icons": { "16": "assets/img/icon.png",
+               "48": "assets/img/icon.png",
+               "128": "assets/img/icon.png" 
+             },
+
     "permissions": [
         "tabs"
     ],
