@@ -23,3 +23,7 @@ body {
     background-position: center center;
     background-size: 60px 60px;
 }
+
+#oneself_icon {
+    width: 40px;
+}
