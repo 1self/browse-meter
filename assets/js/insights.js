@@ -1,13 +1,19 @@
+window.addEventListener("load", executeOnLoadTasks);
+
 function executeOnLoadTasks(){
+    populateSelectBarWithHosts();
+
+    show_active_tab_visualization();
+}
+
+var populateSelectBarWithHosts = function(){
     var visualizationSelect = document.querySelector('#select_visualization');
     PREDEFINED_HOSTS.forEach(function(host){
         visualizationSelect.options[visualizationSelect.options.length] = new Option(host, host);
     });
 
     visualizationSelect.addEventListener("change", renderVizUrl);
-
-    show_active_tab_visualization();
-}
+};
 
 function renderVizUrl(){
     var visualizationSelect = document.querySelector('#select_visualization'),
@@ -26,11 +32,11 @@ var show_active_tab_visualization = function(){
 
         console.log("Host found it: " +  url_host);
 
-        if(!isHostInTrackingList(url_host)) return;
+        if(!isHostInTrackingList(url_host)) {
+            confirmAddHostAndStartTracking();
+        }
 
         document.querySelector('#select_visualization [value="' + url_host + '"]').selected = true;
         document.querySelector('#select_visualization').dispatchEvent(new Event('change'));
     });
-}
-
-window.addEventListener("load", executeOnLoadTasks);
+};

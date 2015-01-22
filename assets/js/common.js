@@ -1,7 +1,7 @@
 var PREDEFINED_HOSTS = ["youtube", "facebook", "google", "wikipedia", "amazon", "yahoo", "twitter", "linkedin", "ebay", "reddit", "pinterest", "instagram", "imgur", "netflix", "msn", "stackoverflow", "dropbox", "cnn", "walmart", "dailymotion", "baidu", "bing", "blogger", "paypal"];
 
 var oneself = new Lib1self({
-    "appName": 'Hello, 1self',
+    "appName": '1self browse-meter',
     "appVersion": '1.0.0',
     "appId": "app-id-75441150bce89bef25c26a4e2acf429e",
     "appSecret": "app-secret-f81d333ac301ec2b0dd5d757ffb2db6dc6607966a52a8a5d06b58f84b3a72446"
