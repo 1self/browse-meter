@@ -8,7 +8,7 @@ function executeOnLoadTasks(){
 
 var populateSelectBarWithHosts = function(){
     var visualizationSelect = document.querySelector('#select_visualization');
-    PREDEFINED_HOSTS.forEach(function(host){
+    getExistingHosts().forEach(function(host){
         visualizationSelect.options[visualizationSelect.options.length] = new Option(host, host);
     });
 
@@ -30,13 +30,25 @@ var show_active_tab_visualization = function(){
         var url = tabs[0].url,
         url_host = parseURL(url).host;
 
-        console.log("Host found it: " +  url_host);
+        console.log("Host found is: " +  url_host);
 
         if(!isHostInTrackingList(url_host)) {
-            confirmAddHostAndStartTracking();
+            if("undefined" !== typeof url_host) confirmAddHostAndStartTracking(url_host);
         }
-
-        document.querySelector('#select_visualization [value="' + url_host + '"]').selected = true;
-        document.querySelector('#select_visualization').dispatchEvent(new Event('change'));
+        
+        updateSelectAndLoadVisualization(url_host);
     });
 };
+
+var updateSelectAndLoadVisualization = function(host){
+    document.querySelector('#select_visualization [value="' + host + '"]').selected = true;
+    document.querySelector('#select_visualization').dispatchEvent(new Event('change'));
+};
+
+var confirmAddHostAndStartTracking = function(host){
+    prependToExistingHosts(host);
+    console.log("New host '" + host + "' added to list");
+
+    populateSelectBarWithHosts();
+    updateSelectAndLoadVisualization(host);
+}

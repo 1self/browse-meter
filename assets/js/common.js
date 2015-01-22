@@ -7,14 +7,6 @@ var oneself = new Lib1self({
     "appSecret": "app-secret-f81d333ac301ec2b0dd5d757ffb2db6dc6607966a52a8a5d06b58f84b3a72446"
 });
 
-if(!window.localStorage.data){
-    oneself.registerStream(function(response) {
-        if (response) {
-            window.localStorage.data = JSON.stringify(response);
-        }
-    });
-}
-
 var getVizUrl = function(host) {
     var data = JSON.parse(window.localStorage.data),
     objectTags = [host], 
@@ -59,7 +51,22 @@ var constructEventAndSend = function(url){
 };
 
 var isHostInTrackingList = function(host){
-    return PREDEFINED_HOSTS.indexOf(host) !== -1;
+    return getExistingHosts().indexOf(host) !== -1;
+};
+
+var getExistingHosts = function(){
+    return JSON.parse(window.localStorage.existing_hosts);
+};
+
+var overwriteExistingHosts = function(list){
+    window.localStorage.existing_hosts = JSON.stringify(list);
+};
+
+var prependToExistingHosts = function(host){
+    var existing_hosts = getExistingHosts();
+    existing_hosts.unshift(host);
+
+    overwriteExistingHosts(existing_hosts);
 };
 
 function parseURL(url){
@@ -100,3 +107,19 @@ function parseURL(url){
 
     return parsed_url;
 }
+
+(function(){
+    //register stream
+    if(!window.localStorage.data){
+        oneself.registerStream(function(response) {
+            if (response) {
+                window.localStorage.data = JSON.stringify(response);
+            }
+        });
+    }
+
+    //create existing hosts
+    if(!window.localStorage.existing_hosts){
+        overwriteExistingHosts(PREDEFINED_HOSTS);
+    }
+})();
