@@ -1,14 +1,16 @@
 function executeOnLoadTasks(){
-    var visualizationSelect = document.getElementById('select_visualization');
+    var visualizationSelect = document.querySelector('#select_visualization');
     PREDEFINED_HOSTS.forEach(function(host){
         visualizationSelect.options[visualizationSelect.options.length] = new Option(host, host);
     });
 
     visualizationSelect.addEventListener("change", renderVizUrl);
+
+    show_active_tab_visualization();
 }
 
 function renderVizUrl(){
-    var visualizationSelect = document.getElementById('select_visualization'),
+    var visualizationSelect = document.querySelector('#select_visualization'),
     host = visualizationSelect.value;
 
     if("" === host) return;
@@ -17,5 +19,18 @@ function renderVizUrl(){
     vizIframe.src = getVizUrl(host);
 };
 
-window.addEventListener("load", executeOnLoadTasks);
+var show_active_tab_visualization = function(){
+    chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
+        var url = tabs[0].url,
+        url_host = parseURL(url).host;
 
+        console.log("Host found it: " +  url_host);
+
+        if(!isHostInTrackingList(url_host)) return;
+
+        document.querySelector('#select_visualization [value="' + url_host + '"]').selected = true;
+        document.querySelector('#select_visualization').dispatchEvent(new Event('change'));
+    });
+}
+
+window.addEventListener("load", executeOnLoadTasks);
