@@ -19,6 +19,7 @@ var getVizUrl = function(host) {
         .actionTags(actionTags)
         .sum(property)
         .barChart()
+        .backgroundColor("00FFA8")
         .url();
 
     console.log(vizUrl);

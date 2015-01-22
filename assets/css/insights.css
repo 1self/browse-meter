@@ -4,11 +4,12 @@ iframe{
 
 .select-wrapper {
     text-align:center;
-    color: rgb(255, 0, 97);
+    color: rgb(255, 206, 12);
+    font-family: monospace;
 }
 
 body {
-    background-color: rgb(16, 52, 82);
+    background-color: rgba(29, 9, 9, 0.83);
 }
 
 .ajax_loader{
