@@ -1,4 +1,4 @@
-var PREDEFINED_HOSTS = ["youtube", "facebook", "google", "wikipedia", "amazon", "yahoo", "twitter", "linkedin", "ebay", "reddit", "pinterest", "instagram", "imgur", "netflix", "msn", "stackoverflow", "dropbox", "cnn", "walmart", "dailymotion", "baidu", "bing", "blogger", "paypal"];
+const PREDEFINED_HOSTS = ["youtube", "facebook", "google", "wikipedia", "amazon", "yahoo", "twitter", "linkedin", "ebay", "reddit", "pinterest", "github", "instagram", "imgur", "netflix", "msn", "stackoverflow", "dropbox", "cnn", "walmart", "dailymotion", "baidu", "bing", "blogger", "paypal"];
 
 var oneself = new Lib1self({
     "appName": '1self browse-meter',

@@ -4,6 +4,11 @@ function executeOnLoadTasks(){
     populateSelectBarWithHosts();
 
     show_active_tab_visualization();
+
+    var vizIframe = document.querySelector("#visualization");
+    vizIframe.addEventListener("load", function(){
+        hideAjaxLoader();
+    });
 }
 
 var populateSelectBarWithHosts = function(){
@@ -21,7 +26,9 @@ function renderVizUrl(){
 
     if("" === host) return;
 
-    var vizIframe = document.getElementById("visualization");
+    showAjaxLoader();
+
+    var vizIframe = document.querySelector("#visualization");
     vizIframe.src = getVizUrl(host);
 };
 
@@ -34,6 +41,7 @@ var show_active_tab_visualization = function(){
 
         if(!isHostInTrackingList(url_host)) {
             if("undefined" !== typeof url_host) confirmAddHostAndStartTracking(url_host);
+            return;
         }
         
         updateSelectAndLoadVisualization(url_host);
@@ -43,6 +51,16 @@ var show_active_tab_visualization = function(){
 var updateSelectAndLoadVisualization = function(host){
     document.querySelector('#select_visualization [value="' + host + '"]').selected = true;
     document.querySelector('#select_visualization').dispatchEvent(new Event('change'));
+};
+
+var showAjaxLoader = function(){
+    var loader = document.querySelector(".ajax_loader");
+    loader.style.display = "block";
+};
+
+var hideAjaxLoader = function(){
+    var loader = document.querySelector(".ajax_loader");
+    loader.style.display = "none";
 };
 
 var confirmAddHostAndStartTracking = function(host){
