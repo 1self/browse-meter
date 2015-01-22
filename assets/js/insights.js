@@ -9,10 +9,16 @@ function executeOnLoadTasks(){
     vizIframe.addEventListener("load", function(){
         hideAjaxLoader();
     });
+
+    var brand_icon = document.querySelector('#oneself_icon');
+    brand_icon.addEventListener("click", function(){
+        chrome.tabs.create({url: "http://1self.co"});
+    });
 }
 
 var populateSelectBarWithHosts = function(){
     var visualizationSelect = document.querySelector('#select_visualization');
+
     getExistingHosts().forEach(function(host){
         visualizationSelect.options[visualizationSelect.options.length] = new Option(host, host);
     });
