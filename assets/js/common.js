@@ -26,7 +26,6 @@ var getVizUrl = function(host) {
     return vizUrl;
 };
 
-
 var constructEventAndSend = function(url){
     var host = parseURL(url).host;
 

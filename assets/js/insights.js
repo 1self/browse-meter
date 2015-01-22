@@ -46,9 +46,15 @@ var updateSelectAndLoadVisualization = function(host){
 };
 
 var confirmAddHostAndStartTracking = function(host){
-    prependToExistingHosts(host);
-    console.log("New host '" + host + "' added to list");
+    var confirmedAddingHost = confirm("The visits to '"+ host + "' are not counted by browse meter. Do you want to add it?");
 
-    populateSelectBarWithHosts();
-    updateSelectAndLoadVisualization(host);
+    if(confirmedAddingHost){
+        prependToExistingHosts(host);
+        console.log("New host '" + host + "' added to list");
+
+        populateSelectBarWithHosts();
+        updateSelectAndLoadVisualization(host);
+    }else{
+        console.log("User denied adding '" + host + "' to list");
+    }
 }
