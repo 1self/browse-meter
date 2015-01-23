@@ -9,7 +9,7 @@ iframe{
 }
 
 body {
-    background-color: rgba(29, 9, 9, 0.83);
+    background: url('../img/background.jpg');
 }
 
 .ajax_loader{
