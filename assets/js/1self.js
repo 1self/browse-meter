@@ -9,7 +9,7 @@
 }(this, function (context) {
     'use strict';
 
-    var API_ENDPOINT = "http://sandbox.1self.co";
+    var API_ENDPOINT = "http://api.1self.co";
     var endpoints = {
         'sandbox':  "http://sandbox.1self.co",
         'production': "https://api.1self.co"

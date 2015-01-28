@@ -3,8 +3,8 @@ const PREDEFINED_HOSTS = ["youtube", "facebook", "google", "wikipedia", "amazon"
 var oneself = new Lib1self({
     "appName": '1self browse-meter',
     "appVersion": '1.0.0',
-    "appId": "app-id-75441150bce89bef25c26a4e2acf429e",
-    "appSecret": "app-secret-f81d333ac301ec2b0dd5d757ffb2db6dc6607966a52a8a5d06b58f84b3a72446"
+    "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869",
+    "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687"
 });
 
 var getVizUrl = function(host) {
