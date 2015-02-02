@@ -1,7 +1,7 @@
 const PREDEFINED_HOSTS = ["youtube", "facebook", "google", "wikipedia", "amazon", "yahoo", "twitter", "linkedin", "ebay", "reddit", "pinterest", "github", "instagram", "imgur", "netflix", "msn", "stackoverflow", "dropbox", "cnn", "walmart", "dailymotion", "baidu", "bing", "blogger", "paypal"];
 
 var appConfig = {
-    "appName": '1self browse-meter',
+    "appName": '1self Visit Counter',
     "appVersion": '1.0.0',
     "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869",
     "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687"
@@ -9,22 +9,22 @@ var appConfig = {
 
 endpoint = 'production',
 
+stream,
+
 oneself = new Lib1selfClient(appConfig, endpoint),
 
 getVizUrl = function(host) {
-    var data = JSON.parse(window.localStorage.data),
-    objectTags = [host], 
+    var objectTags = [host], 
     actionTags = ["browse"],
     property = "times-visited";
 
     var vizUrl = oneself
-        .visualize(data.streamid, data.readToken)
         .objectTags(objectTags)
         .actionTags(actionTags)
         .sum(property)
         .barChart()
         .backgroundColor("1b1b1a")
-        .url();
+        .url(stream);
 
     console.log(vizUrl);
 
@@ -48,10 +48,8 @@ constructEventAndSend = function(url){
         properties: properties
     };
     
-    var metaData = JSON.parse(window.localStorage.data);
-    oneself.sendEvent(event, metaData.streamid, metaData.writeToken, function() {
-        //alert("event sent");
-    });
+    var metaData = JSON.parse(window.localStorage.config);
+    oneself.sendEvent(event, stream);
 },
 
 isHostInTrackingList = function(host){
@@ -114,13 +112,11 @@ parseURL = function(url){
 
 (function(){
     //register stream
-    if(!window.localStorage.data){
-        oneself.registerStream(function(response) {
-            if (response) {
-                window.localStorage.data = JSON.stringify(response);
-            }
-        });
-    }
+    oneself.fetchStream(function(err, response) {
+        if (!err) {
+            stream = response;
+        }
+    });
 
     //create existing hosts
     if(!window.localStorage.existing_hosts){

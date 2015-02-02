@@ -1,13 +1,13 @@
 {
     "manifest_version": 2,
 
-    "name": "1self browse-meter",
+    "name": "1self Visit Counter",
     "description": "A chrome extension to track how many times you visit popular and your favorite websites.",
     "version": "1.0",
 
     "browser_action": {
         "default_icon": "assets/img/icon.png",
-        "default_title": "1self browse-meter",
+        "default_title": "1self Visit Counter",
         "default_popup": "insights.html"
     },
 

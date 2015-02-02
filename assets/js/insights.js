@@ -70,7 +70,7 @@ var hideAjaxLoader = function(){
 };
 
 var confirmAddHostAndStartTracking = function(host){
-    var confirmedAddingHost = confirm("The visits to '"+ host + "' are not counted by browse meter. Do you want to add it?");
+    var confirmedAddingHost = confirm("The visits to '"+ host + "' are not counted by Visit Counter. Do you want to add it?");
 
     if(confirmedAddingHost){
         prependToExistingHosts(host);
