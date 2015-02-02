@@ -9,7 +9,7 @@ var appConfig = {
 
 endpoint = 'production',
 
-oneself = new Lib1self(appConfig, endpoint),
+oneself = new Lib1selfClient(appConfig, endpoint),
 
 getVizUrl = function(host) {
     var data = JSON.parse(window.localStorage.data),
