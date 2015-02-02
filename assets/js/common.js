@@ -1,13 +1,17 @@
 const PREDEFINED_HOSTS = ["youtube", "facebook", "google", "wikipedia", "amazon", "yahoo", "twitter", "linkedin", "ebay", "reddit", "pinterest", "github", "instagram", "imgur", "netflix", "msn", "stackoverflow", "dropbox", "cnn", "walmart", "dailymotion", "baidu", "bing", "blogger", "paypal"];
 
-var oneself = new Lib1self({
+var appConfig = {
     "appName": '1self browse-meter',
     "appVersion": '1.0.0',
     "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869",
     "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687"
-});
+},
 
-var getVizUrl = function(host) {
+endpoint = 'production',
+
+oneself = new Lib1self(appConfig, endpoint),
+
+getVizUrl = function(host) {
     var data = JSON.parse(window.localStorage.data),
     objectTags = [host], 
     actionTags = ["browse"],
@@ -25,9 +29,9 @@ var getVizUrl = function(host) {
     console.log(vizUrl);
 
     return vizUrl;
-};
+},
 
-var constructEventAndSend = function(url){
+constructEventAndSend = function(url){
     var host = parseURL(url).host;
 
     if(!isHostInTrackingList(host)) return;
@@ -48,28 +52,28 @@ var constructEventAndSend = function(url){
     oneself.sendEvent(event, metaData.streamid, metaData.writeToken, function() {
         //alert("event sent");
     });
-};
+},
 
-var isHostInTrackingList = function(host){
+isHostInTrackingList = function(host){
     return getExistingHosts().indexOf(host) !== -1;
-};
+},
 
-var getExistingHosts = function(){
+getExistingHosts = function(){
     return JSON.parse(window.localStorage.existing_hosts);
-};
+},
 
-var overwriteExistingHosts = function(list){
+overwriteExistingHosts = function(list){
     window.localStorage.existing_hosts = JSON.stringify(list);
-};
+},
 
-var prependToExistingHosts = function(host){
+prependToExistingHosts = function(host){
     var existing_hosts = getExistingHosts();
     existing_hosts.unshift(host);
 
     overwriteExistingHosts(existing_hosts);
-};
+},
 
-function parseURL(url){
+parseURL = function(url){
     parsed_url = {}
 
     if ( url == null || url.length == 0 )
@@ -106,7 +110,7 @@ function parseURL(url){
     parsed_url.parent_domain = parsed_url.host + '.' + parsed_url.tld;
 
     return parsed_url;
-}
+};
 
 (function(){
     //register stream
