@@ -75,6 +75,8 @@ var confirmAddHostAndStartTracking = function(host){
     if(confirmedAddingHost){
         prependToExistingHosts(host);
         console.log("New host '" + host + "' added to list");
+        
+        constructEventAndSend(host);
 
         populateSelectBarWithHosts();
         updateSelectAndLoadVisualization(host);
