@@ -31,11 +31,15 @@ getVizUrl = function(host) {
     return vizUrl;
 },
 
-constructEventAndSend = function(url){
+checkTrackingAndSendEvent = function(url){
     var host = parseURL(url).host;
 
     if(!isHostInTrackingList(host)) return;
 
+    constructEventAndSend(host);
+},
+
+constructEventAndSend = function(host){
     var objectTags = [host],
     actionTags = ["browse"],
     properties = {};
@@ -48,7 +52,6 @@ constructEventAndSend = function(url){
         properties: properties
     };
     
-    var metaData = JSON.parse(window.localStorage.config);
     oneself.sendEvent(event, stream);
 },
 
@@ -100,7 +103,7 @@ parseURL = function(url){
           break;
         case 4:
           parsed_url.subdomain = domain_parts[0];
-          parsed_url.host = domain_parts[1];
+          parsed_url.host = domain_parts[2];
           parsed_url.tld = domain_parts[2] + '.' + domain_parts[3];
           break;
     }
