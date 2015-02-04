@@ -16,6 +16,21 @@
         <option value=""> -- Select a website -- </option>
       </select>
     </div>
+
     <iframe width="300" height="1300" id="visualization"></iframe>
+
+    <div class="modalDialog">
+      <div>
+	<a title="Close" class="modal_close">X</a>
+
+        <h2>Add new host?</h2>
+
+        <p>The visits to '<b id="new_hostname"></b>' are not counted by Visit Counter. Do you want to add it?</p>
+
+        <div class="btn" id="okay_to_track">Okay</div>
+        <div class="btn" id="cancel_tracking">Cancel</div>
+      </div>
+    </div>
+
   </body>
 </html>

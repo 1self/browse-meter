@@ -14,6 +14,21 @@ function executeOnLoadTasks(){
     brand_icon.addEventListener("click", function(){
         chrome.tabs.create({url: "http://1self.co"});
     });
+
+    var modal_close = document.querySelector('.modal_close');
+    modal_close.addEventListener("click", function(){
+        closeModal();
+    });
+
+    var okay_to_track = document.querySelector('#okay_to_track');
+    okay_to_track.addEventListener("click", function(){
+        startTracking(host);
+    });
+
+    var cancel_tracking = document.querySelector('#cancel_tracking');
+    cancel_tracking.addEventListener("click", function(){
+        closeModal();
+    });
 }
 
 var populateSelectBarWithHosts = function(){
@@ -45,13 +60,23 @@ var show_active_tab_visualization = function(){
 
         console.log("Host found is: " +  url_host);
 
-        if(!isHostInTrackingList(url_host)) {
-            if("undefined" !== typeof url_host) confirmAddHostAndStartTracking(url_host);
+        if(!isHostInTrackingList(url_host) && ("undefined" !== typeof url_host)) {
+            confirmAddHost(url_host);
             return;
         }
         
         updateSelectAndLoadVisualization(url_host);
     });
+};
+
+
+var confirmAddHost = function(host){
+    document.querySelector('#new_hostname').innerHTML = host;
+    document.querySelector('.modalDialog').style.display = "block";
+};
+
+var closeModal = function(){
+    document.querySelector('.modalDialog').style.display = "none";
 };
 
 var updateSelectAndLoadVisualization = function(host){
@@ -69,7 +94,7 @@ var hideAjaxLoader = function(){
     loader.style.display = "none";
 };
 
-var confirmAddHostAndStartTracking = function(host){
+var startTracking = function(host){
     var confirmedAddingHost = confirm("The visits to '"+ host + "' are not counted by Visit Counter. Do you want to add it?");
 
     if(confirmedAddingHost){
