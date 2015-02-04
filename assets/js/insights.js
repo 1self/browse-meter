@@ -22,7 +22,8 @@ function executeOnLoadTasks(){
 
     var okay_to_track = document.querySelector('#okay_to_track');
     okay_to_track.addEventListener("click", function(){
-        startTracking(host);
+        closeModal();
+        startTrackingCurrentHost();
     });
 
     var cancel_tracking = document.querySelector('#cancel_tracking');
@@ -69,7 +70,6 @@ var show_active_tab_visualization = function(){
     });
 };
 
-
 var confirmAddHost = function(host){
     document.querySelector('#new_hostname').innerHTML = host;
     document.querySelector('.modalDialog').style.display = "block";
@@ -94,18 +94,14 @@ var hideAjaxLoader = function(){
     loader.style.display = "none";
 };
 
-var startTracking = function(host){
-    var confirmedAddingHost = confirm("The visits to '"+ host + "' are not counted by Visit Counter. Do you want to add it?");
+var startTrackingCurrentHost = function(){
+    var host = document.querySelector('#new_hostname').innerHTML;
 
-    if(confirmedAddingHost){
-        prependToExistingHosts(host);
-        console.log("New host '" + host + "' added to list");
+    prependToExistingHosts(host);
+    console.log("New host '" + host + "' added to list");
         
-        constructEventAndSend(host);
+    constructEventAndSend(host);
 
-        populateSelectBarWithHosts();
-        updateSelectAndLoadVisualization(host);
-    }else{
-        console.log("User denied adding '" + host + "' to list");
-    }
+    populateSelectBarWithHosts();
+    updateSelectAndLoadVisualization(host);
 }
