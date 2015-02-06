@@ -3,7 +3,7 @@
 
     "name": "1self Visit Counter",
     "description": "A chrome extension from 1self to track how many times you visit popular and your favorite websites.",
-    "version": "1.1",
+    "version": "1.2",
 
     "browser_action": {
         "default_icon": "assets/img/icon.png",
