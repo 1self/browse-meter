@@ -105,3 +105,11 @@ body {
     border-radius: 4px;
     cursor: pointer;
 }
+
+.infullpage{
+    display:block;
+}
+
+.infullpage > div {
+    width: 335px;
+}

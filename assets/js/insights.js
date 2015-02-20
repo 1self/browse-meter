@@ -1,5 +1,19 @@
 window.addEventListener("load", executeOnLoadTasks);
 
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event)
+{
+    console.log(event.data);
+    if(event.data.loginUrl !== undefined){
+        var redirectUrl = window.location.protocol + "//" + window.location.host + "/message.html";
+        var loginUrl = event.data.loginUrl + '?redirectUrl=' + redirectUrl;
+        loginUrl = loginUrl + '&intent=' + event.data.intent;
+        console.log(loginUrl);
+        chrome.tabs.create({url: loginUrl});
+    }
+}
+
 function executeOnLoadTasks(){
     populateSelectBarWithHosts();
 

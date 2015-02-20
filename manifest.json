@@ -16,6 +16,14 @@
                "128": "assets/img/icon.png" 
              },
 
+    "background": {
+        "pages": ["message.html"]
+    },
+
+    "web_accessible_resources": [
+        "message.html"
+    ],
+
     "permissions": [
         "tabs"
     ],
