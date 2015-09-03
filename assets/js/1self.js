@@ -13,7 +13,8 @@
     var API_ENDPOINT = "http://sandbox.1self.co";
     var endpoints = {
         'sandbox': "http://sandbox.1self.co",
-        'production': "https://api.1self.co"
+        'production': "https://api.1self.co",
+        'staging' : 'http://api-staging.1self.co'
     };
     var lock = false;
     var config = {};
@@ -378,7 +379,8 @@
 
     Lib1selfClient.prototype.url = function (stream) {
         //Check
-        if (this.OBJECT_TAGS.length == 0 || this.ACTION_TAGS.length == 0 || !stream || !this.FUNCTION_TYPE || !this.CHART_TYPE) {
+        console.log(this, this.OBJECT_TAGS.length, this.ACTION_TAGS.length, !stream, !this.FUNCTION_TYPE, !this.CHART_TYPE);
+        if (this.OBJECT_TAGS.length === 0 || this.ACTION_TAGS.length === 0 || !stream || !this.FUNCTION_TYPE || !this.CHART_TYPE) {
             throw (new Error("Can't construct URL"));
         }
 
@@ -403,6 +405,30 @@
         }
 
         return url;
+    };
+
+    Lib1selfClient.prototype.formatLocalDateInISOWithOffset = function(dateToFormat) {
+        console.log('dateToFormat', dateToFormat, Object.prototype.toString.call(dateToFormat));
+        if (dateToFormat && Object.prototype.toString.call(dateToFormat) === "[object Date]") {
+
+            var tzo = -dateToFormat.getTimezoneOffset(),
+                dif = tzo >= 0 ? '+' : '-',
+                pad = function(num) {
+                    var norm = Math.abs(Math.floor(num));
+                    return (norm < 10 ? '0' : '') + norm;
+                };
+            return dateToFormat.getFullYear() 
+                + '-' + pad(dateToFormat.getMonth()+1)
+                + '-' + pad(dateToFormat.getDate())
+                + 'T' + pad(dateToFormat.getHours())
+                + ':' + pad(dateToFormat.getMinutes()) 
+                + ':' + pad(dateToFormat.getSeconds()) 
+                + dif + pad(tzo / 60) 
+                + ':' + pad(tzo % 60);
+
+        } else {
+            return "";
+        }
     };
 
     return Lib1selfClient;

@@ -66,7 +66,7 @@ function renderVizUrl(){
 
     var vizIframe = document.querySelector("#visualization");
     vizIframe.src = getVizUrl(host);
-};
+}
 
 var show_active_tab_visualization = function(){
     chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
