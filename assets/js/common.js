@@ -1,7 +1,7 @@
 const PREDEFINED_HOSTS = ["amazon", "baidu", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
 var appConfig = {
     "appName": '1self Visit Counter',
-    "appVersion": '1.5.0',
+    "appVersion": '1.5.1',
     "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869", // "app-id-visit-counter",
     "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" // "app-secret-visit-counter"
 },
@@ -22,7 +22,7 @@ getVizUrl = function(host) {
         .actionTags(actionTags)
         .sum(property)
         .barChart()
-        .backgroundColor("1b1b1a")
+        .backgroundColor("0EB6EA")
         .url(stream);
 
     console.log(vizUrl);
