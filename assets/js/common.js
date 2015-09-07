@@ -1,9 +1,9 @@
 const PREDEFINED_HOSTS = ["amazon", "baidu", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
 var appConfig = {
     "appName": '1self Visit Counter',
-    "appVersion": '1.0.0',
-    "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869",
-    "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687"
+    "appVersion": '1.5.0',
+    "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869", // "app-id-visit-counter",
+    "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" // "app-secret-visit-counter"
 },
 
 endpoint = 'production',
@@ -45,11 +45,16 @@ constructEventAndSend = function(host){
 
     properties["times-visited"] = 1;
 
+    var eventEndDate = new Date();
+
     var event = {
         objectTags: objectTags,
         actionTags: actionTags,
-        properties: properties
+        properties: properties,
+        dateTime: oneself.formatLocalDateInISOWithOffset(eventEndDate)
     };
+
+    console.log(event);
     
     oneself.sendEvent(event, stream);
 },
