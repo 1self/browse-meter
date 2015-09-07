@@ -1,30 +1,28 @@
-const PREDEFINED_HOSTS = ["1self", "amazon", "baidu", "bbc", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "theguardian", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
+const PREDEFINED_HOSTS = ["amazon", "baidu", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
 var appConfig = {
     "appName": '1self Visit Counter',
-    "appVersion": '2.0.0',
-    "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869", // "app-id-visit-counter", 
-    "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" //"app-secret-visit-counter",
+    "appVersion": '1.0.0',
+    "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869",
+    "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687"
 },
 
 endpoint = 'production',
 
 stream,
 
-lengthOfASessionSecs = 300;
-
 oneself = new Lib1selfClient(appConfig, endpoint),
 
 getVizUrl = function(host) {
-    var objectTags = ["website", host], 
+    var objectTags = [host], 
     actionTags = ["browse"],
-    property = "pages-visited";
+    property = "times-visited";
 
     var vizUrl = oneself
         .objectTags(objectTags)
         .actionTags(actionTags)
         .sum(property)
         .barChart()
-        .backgroundColor("0EB6EA")
+        .backgroundColor("1b1b1a")
         .url(stream);
 
     console.log(vizUrl);
@@ -32,133 +30,28 @@ getVizUrl = function(host) {
     return vizUrl;
 },
 
-getBrowseSessions = function() {
-    var browseSessions = localStorage.activeBrowseSessions;
-
-    if (!browseSessions)
-        browseSessions = [];
-    else
-        browseSessions = JSON.parse(browseSessions);
-
-    return browseSessions;
-},
-
-setBrowseSessions = function(browseSessions) {
-    localStorage.activeBrowseSessions = JSON.stringify(browseSessions);
-},
-
-// getBrowseSession = function(host, browseSessions) {
-
-//     var browseSession;
-
-//     if (!browseSessions)
-//         browseSessions = getBrowseSessions();
-    
-//     for (var i = 0; i < browseSessions.length; i++) {
-//         if (browseSessions[i].host === host) {
-//             browseSession = browseSessions[i];
-//             break;
-//         }
-//     }
-
-//     if (!browseSession) {
-//         browseSession = { 'host': host, 'lastActivityAt': 0 };
-//     }
-
-//     return browseSession;
-// },
-
-// updateBrowseSession = function(browseSession) {
-//     var browseSessions = getBrowseSessions();
-//     var oldBrowseSession = getBrowseSession(browseSession.host, browseSessions);
-
-//     oldBrowseSession = browseSession;
-
-//     localStorage.activeBrowseSessions = JSON.stringify(browseSessions);
-// },
-
-logCompletedSessionsAndUpdateForHost = function(host) {
-    var browseSessions = getBrowseSessions();
-    var stillActive = [];
-    var now = (new Date()).getTime();
-    var browseSessionToUpdate;
-
-    for (var i = 0; i < browseSessions.length; i++) {
-        var browseSession = browseSessions[i];
-        var isActive = (now - browseSession.lastActivityAt < lengthOfASessionSecs * 1000);
-        if (isActive) {
-            stillActive.push(browseSession);
-            if (browseSession.host === host) {
-                browseSessionToUpdate = browseSession;
-            }
-        } else {
-            // send browseSession to 1self
-            constructEventAndSend(browseSession);
-        }
-    }
-
-    if (isHostInTrackingList(host)) {
-        if (!browseSessionToUpdate) {
-            browseSessionToUpdate = {};
-            browseSessionToUpdate.host = host;
-            browseSessionToUpdate.firstActivityAt = now - 1000;
-            browseSessionToUpdate.lastActivityAt = now;
-            browseSessionToUpdate.pagesVisited = 1;
-            stillActive.push(browseSessionToUpdate);
-        } else {
-            browseSessionToUpdate.lastActivityAt = now;
-            browseSessionToUpdate.pagesVisited++;
-        }
-    }
-
-    setBrowseSessions(stillActive);
-},
-
 checkTrackingAndSendEvent = function(url){
-    console.log('in here');
     var host = parseURL(url).host;
 
-    logCompletedSessionsAndUpdateForHost(host);
+    if(!isHostInTrackingList(host)) return;
 
+    constructEventAndSend(host);
 },
 
-constructEventAndSend = function(browseSession){
-
-    var eventEndDate = new Date();
-    eventEndDate.setTime(browseSession.lastActivityAt);
-
-    var objectTags = ["website", browseSession.host],
+constructEventAndSend = function(host){
+    var objectTags = [host],
     actionTags = ["browse"],
     properties = {};
 
-    properties["pages-visited"] = browseSession.pagesVisited;
-    properties.browser = "chrome";
-    properties.platform = "desktop";
-    properties.duration = (browseSession.lastActivityAt - browseSession.firstActivityAt) / 1000;
+    properties["times-visited"] = 1;
 
     var event = {
         objectTags: objectTags,
         actionTags: actionTags,
-        properties: properties,
-        dateTime: oneself.formatLocalDateInISOWithOffset(eventEndDate)
+        properties: properties
     };
     
-    var onGotStream = function(stream) {
-        console.log('event', event, stream.streamid());
-        oneself.sendEvent(event, stream);
-    };
-
-    if (!stream) {
-        oneself.fetchStream(function(err, response) {
-            if (!err) {
-                stream = response;
-                onGotStream(stream);
-            }
-        });
-    } else {
-        onGotStream(stream);
-    }
-
+    oneself.sendEvent(event, stream);
 },
 
 isHostInTrackingList = function(host){

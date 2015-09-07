@@ -5,8 +5,12 @@ iframe{
 
 .select-wrapper {
     text-align:center;
-    color: #0EB6EA;
+    color: rgb(255, 206, 12);
     font-family: monospace;
+}
+
+body {
+    background: url('../img/background.jpg');
 }
 
 .ajax_loader{
@@ -17,7 +21,7 @@ iframe{
     width: 100%;
     height: 100%;
     z-index: 9999;
-    background: url('../img/page-loader.gif') 50% 50% no-repeat rgba(200, 200, 200, 0.3);
+    background: url('../img/page-loader.gif') 50% 50% no-repeat rgba(42, 126, 221, 0.3);
     background-position: center center;
     background-size: 60px 60px;
 }
@@ -49,7 +53,11 @@ iframe{
     margin: 10% auto;
     top: 65px;
     padding: 5px 20px 13px 20px;
+    border-radius: 10px;
     background: #fff;
+    background: -moz-linear-gradient(#fff, #999);
+    background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999);
 }
 .modal_close {
     background: #606061;
@@ -92,7 +100,7 @@ iframe{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background: #0EB6EA;
+    background: rgba(249, 255, 0, 0.65);
     border: 1px solid transparent;
     border-radius: 4px;
     cursor: pointer;
