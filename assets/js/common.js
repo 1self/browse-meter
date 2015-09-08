@@ -1,12 +1,12 @@
 const PREDEFINED_HOSTS = ["amazon", "baidu", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
 var appConfig = {
     "appName": '1self Visit Counter',
-    "appVersion": '1.5.1',
-    "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869", // "app-id-visit-counter",
-    "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" // "app-secret-visit-counter"
+    "appVersion": '1.5.2',
+    "appId": "app-id-visit-counter", // "app-id-b4714dc4e84c06e67ff78a3fd90b7869",
+    "appSecret": "app-secret-visit-counter" // "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" // 
 },
 
-endpoint = 'production',
+endpoint = 'staging',
 
 stream,
 
@@ -38,14 +38,15 @@ checkTrackingAndSendEvent = function(url){
     constructEventAndSend(host);
 },
 
-constructEventAndSend = function(host){
+constructEventAndSend = function(host, eventEndDate){
     var objectTags = [host],
     actionTags = ["browse"],
     properties = {};
 
     properties["times-visited"] = 1;
 
-    var eventEndDate = new Date();
+    if (!eventEndDate)
+        eventEndDate = new Date();
 
     var event = {
         objectTags: objectTags,
@@ -59,9 +60,27 @@ constructEventAndSend = function(host){
     oneself.sendEvent(event, stream);
 },
 
-isHostInTrackingList = function(host){
-    return getExistingHosts().indexOf(host) !== -1;
+isHostInTrackingList = function(host, hostsList){
+    
+    if (!hostsList)
+        hostsList = getExistingHosts();
+
+    for (var i = 0; i < hostsList.length; i++) {
+        if (hostsList[i].host === host && hostsList[i].log) {
+            return true;
+        }
+    }
+
+    return false;
 },
+
+setUpPredefinedHosts = function(hostsList) {
+    var hostsObjsList = [];
+    for (var i = 0; i < hostsList.length; i++) {
+        hostsObjsList.push({ host: hostsList[i], log: true });
+    }
+    overwriteExistingHosts(hostsObjsList);
+}
 
 getExistingHosts = function(){
     return JSON.parse(window.localStorage.existing_hosts);
@@ -79,7 +98,7 @@ prependToExistingHosts = function(host){
 },
 
 parseURL = function(url){
-    parsed_url = {}
+    parsed_url = {};
 
     if ( url == null || url.length == 0 )
         return parsed_url;
@@ -120,13 +139,26 @@ parseURL = function(url){
 (function(){
     //register stream
     oneself.fetchStream(function(err, response) {
+        console.log('testing');
         if (!err) {
             stream = response;
         }
     });
 
+    if(!localStorage.first && !window.localStorage.existing_hosts) {
+        chrome.tabs.create({
+           url : "thanks.html"
+        });
+        localStorage.first = "true";
+    }
+
     //create existing hosts
-    if(!window.localStorage.existing_hosts){
-        overwriteExistingHosts(PREDEFINED_HOSTS);
+    if (!window.localStorage.existing_hosts){
+        setUpPredefinedHosts(PREDEFINED_HOSTS);
+    } else {
+        var hostsList = getExistingHosts();
+        if (hostsList.length > 0 && typeof hostsList[0] !== "object") {
+            setUpPredefinedHosts(hostsList);
+        }
     }
 })();

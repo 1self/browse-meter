@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="assets/js/lib1self-client.js"></script>
+    <script type="text/javascript" src="assets/js/common.js"></script>
+    <script type="text/javascript" src="assets/js/thanks.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/insights.css" />
+</head>
+
+<body>
+    <div class="select-wrapper">
+        <img id="oneself_icon" src="assets/img/icon.png" />
+        <h1>Visit Counter</h1>
+    </div>
+    <div>
+        <p>Thanks for installing the 1self Visit Counter Chrome extension.</p>
+        <p>By default this extension will log how many times you visit a list of popular websites (<a id="edit-list" href="#">see/edit list</a>). You can change which websites you'd like to log visits for at any time.</p>
+        <p>Visit counter will pick up your visits to selected websites from this point onwards. However, we can also log what you did in the past by looking at your browsing history (again, only for the selected websites).</p>
+        <p>Visit Counter only logs visits to <a id="edit-list-2" href="#">websites that are in the list</a>. It won't take any notice of any other websites. It also doesn't look at the content, title or long web address of any web pages.</p>
+        <hr>
+        <p>Would you like to build up an instant profile of your browsing behaviour by logging your history? (It only takes a moment)</p>
+        <div class="button-row-1">
+            <input type="button" value="yes, let's do it!" id="btn-yes" class="btn-yes"> &nbsp;
+            <input type="button" value="no, thanks" id="btn-no" class="btn-no">
+        </div>
+        <div class="doing-row">
+            <img src="assets/img/loading.gif" height="30" width="30">
+            Logging your history
+        </div>
+        <div class="done-row hide">
+            <p>Finished. <a href="insights.html">View your logged browsing behaviour</a></p>
+        </div>
+    </div>
+    <div id="overlay">
+        <div id="overlay-inner">
+            <p>Log visits to these websites</p>
+            <div id="hosts">
+                <div class="row host-header">
+                    <div class="left-col">
+                        <div>Website</div>
+                    </div>
+                    <div class="right-col">
+                        <div>Log visits?</div>
+                    </div>
+                </div>
+                <div class="row host-item template">
+                    <div class="left-col">
+                        <div>abc</div>
+                    </div>
+                    <div class="right-col">
+                        <div>
+                            <input class="host-chk" type="checkbox" value="_template_" checked>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-row-2">
+                <input type="button" class="btn-yes" value="Save and close" id="save-hosts"> &nbsp;
+                <input type="button" class="btn-no" value="Cancel" id="cancel">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

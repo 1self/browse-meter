@@ -49,11 +49,13 @@ function executeOnLoadTasks(){
 var populateSelectBarWithHosts = function(){
     var visualizationSelect = document.querySelector('#select_visualization');
 
-    getExistingHosts().forEach(function(host){
-        visualizationSelect.options[visualizationSelect.options.length] = new Option(host, host);
-    });
+    if (visualizationSelect.options.length === 1) {
+        getExistingHosts().forEach(function(hostObj){
+            visualizationSelect.options[visualizationSelect.options.length] = new Option(hostObj.host, hostObj.host);
+        });
 
-    visualizationSelect.addEventListener("change", renderVizUrl);
+        visualizationSelect.addEventListener("change", renderVizUrl);
+    }
 };
 
 function renderVizUrl(){
@@ -66,7 +68,7 @@ function renderVizUrl(){
 
     var vizIframe = document.querySelector("#visualization");
     vizIframe.src = getVizUrl(host);
-};
+}
 
 var show_active_tab_visualization = function(){
     chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
@@ -75,12 +77,14 @@ var show_active_tab_visualization = function(){
 
         console.log("Host found is: " +  url_host);
 
-        if(!isHostInTrackingList(url_host) && ("undefined" !== typeof url_host)) {
-            confirmAddHost(url_host);
-            return;
+        if (url_host) {
+            if(!isHostInTrackingList(url_host) && ("undefined" !== typeof url_host)) {
+                confirmAddHost(url_host);
+                return;
+            }
+            
+            updateSelectAndLoadVisualization(url_host);
         }
-        
-        updateSelectAndLoadVisualization(url_host);
     });
 };
 
@@ -110,12 +114,14 @@ var hideAjaxLoader = function(){
 
 var startTrackingCurrentHost = function(){
     var host = document.querySelector('#new_hostname').innerHTML;
+    var hostObj = { host: host, log: true };
+    
+    prependToExistingHosts(hostObj);
 
-    prependToExistingHosts(host);
     console.log("New host '" + host + "' added to list");
         
     constructEventAndSend(host);
 
     populateSelectBarWithHosts();
     updateSelectAndLoadVisualization(host);
-}
+};
