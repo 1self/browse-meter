@@ -55,14 +55,13 @@ constructEvent = function(host, eventEndDate) {
         dateTime: oneself.formatLocalDateInISOWithOffset(eventEndDate)
     };
 
-    // console.log(event);
-
     return event;
 },
 
 constructEventAndSend = function(host, eventEndDate) {
     var event = constructEvent(host, eventEndDate);    
     oneself.sendEvent(event, stream);
+    console.log('send event', event, stream.streamid());
 },
 
 sendSyncEvent = function(startOrEnd) {
@@ -73,11 +72,11 @@ sendSyncEvent = function(startOrEnd) {
         dateTime: oneself.formatLocalDateInISOWithOffset(eventEndDate)
     };   
     oneself.sendEvent(event, stream);
-    console.log('send sync ' + startOrEnd);
+    console.log('send sync ' + startOrEnd, stream.streamid());
 },
 
 sendEventsBatch = function(eventsBatch) {
-    console.log(stream.streamid());
+    console.log('sending batch of', eventsBatch.length, 'to', stream.streamid());
     oneself.sendEvents(eventsBatch, stream);
 },
 
@@ -204,7 +203,6 @@ function getHistory(totalWeeks, onIteration, onEnd, host) {
     functionToLoop : function(loop, i) {
         var toDate = now - (microsecondsPerWeek * i);
         var fromDate = now - (microsecondsPerWeek * (i + 1));
-        console.log(toDate, fromDate, i);
         searchHistoryAndCreateEvents(fromDate, toDate, onCompletion, loop, host);
     },
     callback : function(){
@@ -257,10 +255,11 @@ function searchHistoryAndCreateEvents(fromDate, toDate, callback, loop, restrict
             eventsMaster.push(ev);
 
           if (numProcessed === historyItems.length) {
-            console.log('history count', historyItems.length);
-            console.log('events count', eventsMaster.length);
+            console.log('history count', historyItems.length, 'events count', eventsMaster.length);
 
-            sendEventsBatch(eventsMaster);  
+            if (eventsMaster.length > 0)
+                sendEventsBatch(eventsMaster);  
+            
             callback(loop);       
           }
         };
@@ -273,7 +272,6 @@ function searchHistoryAndCreateEvents(fromDate, toDate, callback, loop, restrict
           numProcessed++;
 
           if (host && isHostInTrackingList(host, hostsList)) {
-            // console.log(historyItem);
             if (!restrictToHost || restrictToHost === host) {
                 ev = constructEvent(host, visitDate);
             }
@@ -289,7 +287,7 @@ function searchHistoryAndCreateEvents(fromDate, toDate, callback, loop, restrict
 (function(){
     //register stream
     oneself.fetchStream(function(err, response) {
-        console.log('testing');
+        console.log('fetched stream');
         if (!err) {
             stream = response;
         }
