@@ -1,7 +1,7 @@
 const PREDEFINED_HOSTS = ["amazon", "baidu", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
 var appConfig = {
     "appName": '1self Visit Counter',
-    "appVersion": '1.6.0',
+    "appVersion": '1.7.0',
     "appId": "app-id-visit-counter", // "app-id-b4714dc4e84c06e67ff78a3fd90b7869",
     "appSecret": "app-secret-visit-counter" // "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" // 
 },
@@ -144,7 +144,133 @@ parseURL = function(url){
     parsed_url.parent_domain = parsed_url.host + '.' + parsed_url.tld;
 
     return parsed_url;
+},
+
+getBrowserHistory = function(totalWeeks, onIteration, onEnd, host) {
+
+    chrome.permissions.contains({
+      permissions: ['history']
+    }, function (gotHistoryPerm) {
+      if (gotHistoryPerm) {
+        getHistory(totalWeeks, onIteration, onEnd, host);
+      } else {
+        chrome.permissions.request({
+            permissions: ['history']
+        }, function(granted) {
+            // The callback argument will be true if the user granted the permissions.
+            if (granted) {
+                console.log('granted');
+                getHistory(totalWeeks, onIteration, onEnd, host);
+            } else {
+                console.log('not granted');
+            }
+        });
+      }
+    });
 };
+
+function getHistory(totalWeeks, onIteration, onEnd, host) {
+  console.log('getting history');
+
+  var microsecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
+  var completedWeeks = 0;
+  var now = (new Date).getTime();
+
+  var onCompletion = function(loop) {
+    completedWeeks++;
+    if (completedWeeks === totalWeeks) {
+        onEnd();     
+    } else {
+        onIteration(completedWeeks);
+    }
+    loop();
+  };
+
+  asyncLoop({
+    length : totalWeeks,
+    functionToLoop : function(loop, i) {
+        var toDate = now - (microsecondsPerWeek * i);
+        var fromDate = now - (microsecondsPerWeek * (i + 1));
+        console.log(toDate, fromDate, i);
+        searchHistoryAndCreateEvents(fromDate, toDate, onCompletion, loop, host);
+    },
+    callback : function(){
+        console.log('All done!');
+    }    
+  });
+}
+
+function asyncLoop(o) {
+    var i=-1;
+
+    var loop = function() {
+        i++;
+        if (i == o.length) {
+          o.callback();
+          return;
+        }
+        o.functionToLoop(loop, i);
+    };
+
+    loop();//init
+}
+
+function searchHistoryAndCreateEvents(fromDate, toDate, callback, loop, restrictToHost) {
+  var fromDt = new Date(fromDate), toDt = new Date(toDate);
+  // fromDt = fromDt.setTime(fromDate);
+  // toDt = toDt.setTime(toDate);
+  console.log(fromDate, fromDt, toDate, toDt);
+  var restrictToHostTxt = restrictToHost ? restrictToHost : '';
+  chrome.history.search({
+    'text': restrictToHostTxt,           
+    'startTime': fromDate,
+    'endTime': toDate,
+    'maxResults': 100000
+    },
+    function(historyItems) {
+      // For each history item, get details on all visits.
+      
+      if (historyItems.length === 0) {
+        console.log('no history', fromDate, toDate);
+        callback(loop);
+      } else {
+        var hostsList = getExistingHosts();
+        var eventsMaster = [];
+        var numProcessed = 0;
+
+        var onCompletion = function(ev, numberProcessed) {
+          if (ev)
+            eventsMaster.push(ev);
+
+          if (numProcessed === historyItems.length) {
+            console.log('history count', historyItems.length);
+            console.log('events count', eventsMaster.length);
+
+            sendEventsBatch(eventsMaster);  
+            callback(loop);       
+          }
+        };
+
+        historyItems.forEach(function (historyItem) {
+          var host = parseURL(historyItem.url).host;
+          var visitDate = new Date(historyItem.lastVisitTime);
+          var ev = null;
+
+          numProcessed++;
+
+          if (host && isHostInTrackingList(host, hostsList)) {
+            // console.log(historyItem);
+            if (!restrictToHost || restrictToHost === host) {
+                ev = constructEvent(host, visitDate);
+            }
+          }
+          
+          onCompletion(ev, numProcessed);
+
+        });        
+      }
+  });
+}
 
 (function(){
     //register stream

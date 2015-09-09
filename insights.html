@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <script type="text/javascript" src="assets/js/lib1self-client.js"></script>
     <script type="text/javascript" src="assets/js/common.js"></script>
     <script type="text/javascript" src="assets/js/insights.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/insights.css" />
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="ajax_loader"></div>
-
     <div class="select-wrapper">
-      <img id="oneself_icon" src="assets/img/icon.png" />
-      <h1>Visit Counter</h1>
-      <select id="select_visualization">
-        <option value=""> -- Select a website -- </option>
-      </select>
+        <img id="oneself_icon" src="assets/img/icon.png" />
+        <h1>Visit Counter</h1>
+        <select id="select_visualization">
+            <option value=""> -- Select a website -- </option>
+        </select>
     </div>
-
     <div class="iframe-div">
-      <iframe width="300" height="1300" id="visualization"></iframe>
+        <iframe width="300" height="1300" id="visualization"></iframe>
     </div>
-
     <div class="modalDialog">
-      <div>
-	<a title="Close" class="modal_close">X</a>
-
-        <h2>Add new host?</h2>
-
-        <p>The visits to '<b id="new_hostname"></b>' are not counted by Visit Counter. Do you want to add it?</p>
-
-        <div class="btn" id="okay_to_track">Okay</div>
-        <div class="btn" id="cancel_tracking">Cancel</div>
-      </div>
+        <div>
+            <a title="Close" class="modal_close">X</a>
+            <div class="add-new-host">
+                <h2>Add new host?</h2>
+                <p>The visits to '<b id="new_hostname"></b>' are not counted by Visit Counter. Do you want to add it?</p>
+                <div class="btn btn-ok" id="okay_to_track">Okay</div>
+                <div class="btn btn-cancel" id="cancel_tracking">Cancel</div>
+            </div>
+            <div class="get-history">
+                <h2>Get previous history?</h2>
+                <p>Do you want Visit Counter to retrieve previous visits to '<b id="new_hostname_2"></b>' from your browsing history?</p>
+                <div class="btn btn-ok" id="get_history">Yes, do it</div>
+                <div class="btn btn-cancel" id="cancel_history">No thanks</div>
+            </div>
+            <div class="getting-history">
+                <h2>Getting history</h2>
+                <p>Completed week <span class="week-count-active"></span> of <span class="week-count-total"></span></p>
+            </div>
+            <div class="finished-history">
+                <h2>Finished getting your history</h2>
+                <p>Previous visits to '<b id="new_hostname_3"></b>' have now been logged?</p>
+                <div class="btn btn-ok" id="finished_history">View data</div>
+            </div>
+        </div>
     </div>
+</body>
 
-  </body>
 </html>
