@@ -1,4 +1,4 @@
-const PREDEFINED_HOSTS = ["amazon", "baidu", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
+const PREDEFINED_HOSTS = ["amazon", "baidu", "bbc", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "theguardian", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
 var appConfig = {
     "appName": '1self Visit Counter',
     "appVersion": '1.7.0',
