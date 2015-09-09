@@ -29,6 +29,11 @@ function executeOnLoadTasks() {
         
     });
 
+    document.querySelector('#btn-no').addEventListener('click', function(event) {
+      $('.button-row-1').hide();
+      $('.no-thanks-row').removeClass('hide');
+    });
+
     document.querySelector('#edit-list').addEventListener('click', function(event) {
       var el = document.getElementById("overlay");
       el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
