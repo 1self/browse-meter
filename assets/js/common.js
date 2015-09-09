@@ -65,6 +65,17 @@ constructEventAndSend = function(host, eventEndDate) {
     oneself.sendEvent(event, stream);
 },
 
+sendSyncEvent = function(startOrEnd) {
+    var eventEndDate = new Date();
+    var event = {
+        objectTags: [ startOrEnd ],
+        actionTags: [ "1self", "integration", "sync" ],
+        dateTime: oneself.formatLocalDateInISOWithOffset(eventEndDate)
+    };   
+    oneself.sendEvent(event, stream);
+    console.log('send sync ' + startOrEnd);
+},
+
 sendEventsBatch = function(eventsBatch) {
     console.log(stream.streamid());
     oneself.sendEvents(eventsBatch, stream);
@@ -90,7 +101,7 @@ setUpPredefinedHosts = function(hostsList) {
         hostsObjsList.push({ host: hostsList[i], log: true });
     }
     overwriteExistingHosts(hostsObjsList);
-}
+},
 
 getExistingHosts = function(){
     return JSON.parse(window.localStorage.existing_hosts);
@@ -186,6 +197,8 @@ function getHistory(totalWeeks, onIteration, onEnd, host) {
     loop();
   };
 
+  sendSyncEvent('start');
+
   asyncLoop({
     length : totalWeeks,
     functionToLoop : function(loop, i) {
@@ -196,6 +209,7 @@ function getHistory(totalWeeks, onIteration, onEnd, host) {
     },
     callback : function(){
         console.log('All done!');
+        sendSyncEvent('end');
     }    
   });
 }
