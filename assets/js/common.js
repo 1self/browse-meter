@@ -2,11 +2,11 @@ const PREDEFINED_HOSTS = ["amazon", "baidu", "bing", "blogger", "cnn", "dailymot
 var appConfig = {
     "appName": '1self Visit Counter',
     "appVersion": '1.7.0',
-    "appId": "app-id-visit-counter", // "app-id-b4714dc4e84c06e67ff78a3fd90b7869",
-    "appSecret": "app-secret-visit-counter" // "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" // 
+    "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869", // "app-id-visit-counter",
+    "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" // "app-secret-visit-counter"
 },
 
-endpoint = 'staging',
+endpoint = 'production',
 
 stream,
 
