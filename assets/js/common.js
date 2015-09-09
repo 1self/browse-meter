@@ -38,7 +38,7 @@ checkTrackingAndSendEvent = function(url){
     constructEventAndSend(host);
 },
 
-constructEventAndSend = function(host, eventEndDate){
+constructEvent = function(host, eventEndDate) {
     var objectTags = [host],
     actionTags = ["browse"],
     properties = {};
@@ -55,12 +55,22 @@ constructEventAndSend = function(host, eventEndDate){
         dateTime: oneself.formatLocalDateInISOWithOffset(eventEndDate)
     };
 
-    console.log(event);
-    
+    // console.log(event);
+
+    return event;
+},
+
+constructEventAndSend = function(host, eventEndDate) {
+    var event = constructEvent(host, eventEndDate);    
     oneself.sendEvent(event, stream);
 },
 
-isHostInTrackingList = function(host, hostsList){
+sendEventsBatch = function(eventsBatch) {
+    console.log(stream.streamid());
+    oneself.sendEvents(eventsBatch, stream);
+},
+
+isHostInTrackingList = function(host, hostsList) {
     
     if (!hostsList)
         hostsList = getExistingHosts();

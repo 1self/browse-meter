@@ -125,18 +125,11 @@ iframe{
     border:1px solid rgb(14,182,234);
     padding:15px;
     text-align:center;
+    position: relative;
 }
-/*
-#hosts li {
-    width: 100%;
-    list-style: none;
-}*/
 
 .row.host-header div {
-/*    padding-bottom: 6px;
-    padding-top: 10px;*/
     font-weight: bold;
-/*    font-size: 1.1em;*/
 }
 
 .left-col {
@@ -215,6 +208,7 @@ iframe{
     color: #fff;
     border:1px solid rgb(14,182,234);
     padding: 5px;
+    cursor:pointer;
 }
 
 .btn-no {
@@ -222,6 +216,7 @@ iframe{
     color: rgb(14,182,234);
     border:1px solid rgb(14,182,234);
     padding: 5px;
+    cursor:pointer;
 }
 
 .iframe-div {
