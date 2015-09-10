@@ -11,10 +11,16 @@
     'use strict';
 
     var API_ENDPOINT = "http://sandbox.1self.co";
+    var APP_ENDPOINT = "http://sandbox.1self.co";
     var endpoints = {
         'sandbox': "http://sandbox.1self.co",
         'production': "https://api.1self.co",
         'staging' : 'http://api-staging.1self.co'
+    };
+    var appEndpoints = {
+        'sandbox': "http://sandbox.1self.co",
+        'production': "https://app.1self.co",
+        'staging' : 'http://app-staging.1self.co'
     };
     var lock = false;
     var config = {};
@@ -203,6 +209,9 @@
             if (endpoints[endpoint]) {
                 API_ENDPOINT = endpoints[endpoint];
             }
+            if (appEndpoints[endpoint]) {
+                APP_ENDPOINT = appEndpoints[endpoint];
+            }
         }
 
         config = _config;
@@ -252,7 +261,7 @@
 
         var req = new XMLHttpRequest();
 
-        req.open("POST", API_ENDPOINT + "/v1/streams", true);
+        req.open("POST", APP_ENDPOINT + "/v1/streams", true);
         req.setRequestHeader("Authorization", config.appId + ":" + config.appSecret);
         req.onload = function () {
             if (req.readyState == 4 && req.status == 200) {
