@@ -192,25 +192,12 @@ iframe{
     display: none;
 }
 
-.done-row {
-    background-color: rgb(14,182,234);
-    height: 27px;
-    padding: 5px;
-}
-
 .hide {
     display: none;
 }
 
 .table {
     display: table;
-}
-
-.done-row p {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    color: #fff;
 }
 
 .done-row p a {

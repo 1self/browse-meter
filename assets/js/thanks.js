@@ -15,7 +15,7 @@ function executeOnLoadTasks() {
 
       var onEnd = function() {
         $('.doing-row').hide();
-        $('.done-row').toggleClass('hide table'); 
+        $('.done-row').toggleClass('hide'); 
       };
 
       $weekCountActive.text("0");
