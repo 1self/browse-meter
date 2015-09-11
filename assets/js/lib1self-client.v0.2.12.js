@@ -1,3 +1,6 @@
+/*! lib1self-client - v0.2.12 - 2015-09-11
+* http://www.1self.co
+* Copyright (c) 2015 Ed Sykes; Licensed  */
 (function (root, factory) {
     if (typeof define === "function" && define.amd) {
         define([], factory);
