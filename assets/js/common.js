@@ -1,7 +1,7 @@
 const PREDEFINED_HOSTS = ["1self", "amazon", "baidu", "bbc", "bing", "blogger", "cnn", "dailymotion", "dropbox", "ebay", "facebook", "github", "google", "imgur", "instagram", "linkedin", "msn", "netflix", "paypal", "pinterest", "reddit", "stackoverflow", "theguardian", "twitter", "walmart", "wikipedia", "yahoo", "ycombinator", "youtube"];
 var appConfig = {
     "appName": '1self Visit Counter',
-    "appVersion": '1.7.2',
+    "appVersion": '1.7.3',
     "appId": "app-id-b4714dc4e84c06e67ff78a3fd90b7869", // "app-id-visit-counter", //
     "appSecret": "app-secret-f3e85162d2e6b5f4b2a060b724c1d5ba9ef851919eb788209ec314d0aa67a687" // "app-secret-visit-counter" //
 },
