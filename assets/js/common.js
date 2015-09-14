@@ -2,11 +2,11 @@ const PREDEFINED_HOSTS = ["1self", "amazon", "baidu", "bbc", "bing", "blogger", 
 var appConfig = {
     "appName": '1self Visit Counter',
     "appVersion": '1.7.2',
-    "appId": "app-id-visitcounter", // "app-id-visit-counter", //
-    "appSecret": "app-secret-visitcounter" // "app-secret-visit-counter" //
+    "appId": "app-id-visit-counter", // "app-id-visit-counter", //
+    "appSecret": "app-secret-visit-counter" // "app-secret-visit-counter" //
 },
 
-endpoint = 'dev',
+endpoint = 'staging',
 
 stream,
 

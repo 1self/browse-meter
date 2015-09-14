@@ -33,7 +33,7 @@
     ],
 
     "background": {
-        "scripts": ["assets/js/lib1self-client.js", "assets/js/common.js", "assets/js/eventPage.js"],
+        "scripts": ["assets/js/lib1self-client.v0.2.12.js", "assets/js/common.js", "assets/js/eventPage.js"],
         "persistent": true
     }
 }
